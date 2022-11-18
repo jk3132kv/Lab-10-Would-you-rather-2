@@ -1,15 +1,18 @@
 <template>
-  <div class="wyr">
+  <div class="wyrm">
 
-    <h2>Please make your choice!</h2>
+    <h2>Would you rather...</h2>
 
-    <h3>{{ question }}</h3>
+    <!-- bind value of question to h3 -->
+    <h3 v-bind:value="question">{{ question }}</h3>
 
-    <input type="radio" v-model="choice" v-bind:value="answer1" v-on:change="choiceMade"
-    ><label>{{ answer1 }}</label>
-    <input type="radio" v-model="choice" v-bind:value="answer2"  v-on:change="choiceMade"
-    ><label>{{ answer2 }}</label>
-   
+    <!-- radio buttons with answers bound to them with listeners for when they are changed -->
+    <input type="radio" v-model="choice" v-bind:value="answer1" v-on:change="choiceMade">
+    <label>{{ answer1 }}</label>
+
+    <input type="radio" v-model="choice" v-bind:value="answer2" v-on:change="choiceMade">
+    <label>{{ answer2 }}</label>
+
   </div>
 </template>
 
@@ -17,6 +20,7 @@
 export default {
   name: 'WouldYouRather',
   props: {
+    id: Number,
     question: String,
     answer1: String,
     answer2: String,
@@ -27,8 +31,10 @@ export default {
     }
   },
   methods: {
+
+    // choices emitted to the parent, app.vue
     choiceMade() {
-      this.$emit('answer-changed', this.choice)
+      this.$emit('answer-changed', this.id, this.choice)
     }
   }
 }
@@ -36,13 +42,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 h3 {
-  margin: 40px 0 0;
+  margin-bottom: 20px;
 }
 
-.wyr {
+.wyrm {
   border: 2px black solid;
-  background: lightcyan;
-  margin: 10px;
+  background: linear-gradient(violet,lightskyblue);
+  text-align: left;
+  margin: 25px 20px 25px 20px;
+  padding-left: 10px;
+  padding-bottom: 10px;
 }
+
 </style>
